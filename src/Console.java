@@ -1,30 +1,52 @@
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.Scanner;
 
 class Console {
+    private Scanner scanner = new Scanner(System.in);
+    private Date date = new Date();
+    private static final String ANSI_RESET = "\u001B[0m";
+    private static final String ANSI_RED = "\u001B[31m";
+    private static final String ANSI_GREEN = "\u001B[32m";
+    private static final String ANSI_YELLOW = "\u001B[33m";
 
-    void Console(String msg) {
+    void out(String msg) {
         System.out.print(msg);
     }
 
-    void Console(ArrayList<Character> msg) {
-        Console("Your password is:");
-        for (int i = 0; i < msg.size(); i++) System.out.print(msg.get(i));
+    void out(ArrayList<Character> msg) {
+        int i = 0;
+        int size = msg.size();
+        while (i < size) {
+            System.out.print(msg.get(i));
+            i++;
+        }
     }
 
-    int checkInt() {
-        Scanner scan = new Scanner(System.in);
-        String number;
-        do {
-            System.out.print("Please enter a positive number!\nEnter your password length:  ");
-            while (!scan.hasNextInt()) {
-                Console("That not a number!\n");
-                Console("Please enter a positive number!\nEnter your password length:  ");
-                scan.nextLine();
-            }
-            number = scan.next();
-        } while (Integer.parseInt(number) <= 0);
-        scan.close();
-        return Integer.parseInt(number);
+    String readLine() {
+        return scanner.nextLine();
     }
+
+    String readNext() {
+        return scanner.next();
+    }
+
+    boolean hasInt(){
+        return scanner.hasNextInt();
+    }
+
+    void log(int level, String msg) {
+        switch (level) {
+            case 1:
+                this.out(ANSI_GREEN + "[" + date.toString() + "] " + ANSI_RESET + msg + "\n");
+                return;
+            case 2:
+                this.out(ANSI_YELLOW + "Ошибка: " + ANSI_RESET + msg + "\n");
+                return;
+            case 3:
+                this.out(ANSI_RED + "ВНИМАНИЕ: " + ANSI_RESET + msg + "\n");
+                return;
+        }
+    }
+
 }
